@@ -1,0 +1,171 @@
+*{
+    margin: 0px;
+    padding: 0px;
+
+}
+body{
+    background-color:#100e1d;
+    font-family: sans-serif;
+
+}
+.wrap{
+    width: 100%;
+    padding-top: 15px;display: inline-flex;
+}
+.container-left{
+    width: 25%;
+    height: 95vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 4px;
+    margin-right: 31px;
+    margin-left: 31px;
+    background-color: #1e213a;
+
+}
+
+.container-left form {
+    width: 85%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
+.container-left form input[type="text"]{
+    text-align: center;
+    width: 85%;
+    margin: 0px auto;
+    outline: none;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    height: 25px;
+    font-size: 18px;
+    background-color: transparent;
+    color: rgb(231, 229, 229);
+}
+.container-left form input[type="submit"]{
+    width: 60px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    font-size: 15px;
+    padding: 4px;
+    margin: auto;
+    cursor: pointer;
+    background-color: #1f223b;
+    color: #fff;
+    margin-top: 12px;
+    margin-bottom: 20px;
+}
+.container-left .card-left{
+    width: 230px;
+    height: 270px;
+    padding: 7px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 0px;
+    text-align: center;
+    background-color:#100e1d;
+    overflow: hidden;
+    display: none;
+
+
+}
+
+.container-left .card-left p{
+    font-size: 18px;
+    margin-bottom: 34px;
+    color: #fff;
+}
+.container-left .card-left img{
+    width: 70px;
+}
+.container-left .card-left .weather-left{
+    width: 99%;
+    height: 215px;
+    border-radius: 5px;
+    transform:  none;
+    background-color: transparent;
+    background-color: crimson;
+    transition: all linear 0.6s;
+
+}
+
+.container-left .card-left .weather-left p{
+    color: #fff;
+    font-size: 17.3px;
+    margin: 21px 11px;
+
+}
+.container-left  .card-left .weather-left .open-weather-left{
+    width: 20px;
+    margin-left: 84%;
+    cursor: pointer;
+}
+
+/***/
+.container-right{
+    width: 65%;
+    height: 95vh;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 0px 20px;
+    display: none;
+    background-color: #1e213a;
+
+}
+.container-right .cont-city{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+.container-right .cards{
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.container-right .cards .card{
+    width: 230px;
+    height: 255px;
+    padding: 7px;
+    border: 1px solid black;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+    overflow: hidden;
+    background-color:#100e1d;
+
+
+}
+.container-right .cards .card p{
+    font-size: 18px;
+    margin-bottom: 33px;
+    color: #fff;
+
+}
+.container-right .cards .card .weathers{
+    width: 98%;
+    height: 215px;
+    border-radius: 5px;
+    transform:  none;
+    background-color: transparent;
+    background-color: crimson;
+    transition: all linear 0.6s;
+
+}
+
+.container-right .cards .card .weathers p{
+    color: #fff;
+    font-size: 17.3px;
+    margin: 12px 5px;
+}
+.container-right .cards .card .weathers .open-weathers{
+    width: 20px;
+    margin-left: 84%;
+    cursor: pointer;
+}
