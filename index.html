@@ -2,38 +2,34 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <title>Clima</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="css/normalize.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="css/index.css" media="all">
+  <link rel="stylesheet" href="css/responsive.css">
+  <title>Clima</title>
 </head>
 
 <body>
-    <div class="wrap">
-
-        <section class="container-left">
-            <form>
-              
-              
-              
-                <input type="text" id="input-city" placeholder="Ingrese una ciudad">
-                <input type="submit" value="Buscar" id="btn">
-            </form>
-            <div class="card-left">
-
-            </div>
-        </section>
-        <section class="container-right">
-            <div class="cont-city">
-                <h1 id="city"></h1>
-            </div>
-            <div class="cards">
-
-            </div>
-        </section>
+  <main class="wrap">
+    <div>
+      <form>
+        <input type="text" name="city" id="city" />
+        <button type="submit">
+          Buscar
+          <i class='bx bx-search-alt'></i>
+        </button>
+      </form>
+      <div class="wrap-cars">
+        
+      </div>
     </div>
-    <script src="js/index.js"></script>
+    <div class="wrap-cards">
+      
+    </div>
+  </main>
+  <script src="js/index.js"></script>
 </body>
 
 </html>
