@@ -73,10 +73,11 @@ const getGeolocation = () => {
         getNameCity(lat, lon)
           .then(resName => resName.json())
           .then(resNameCity => {
-            handleCardsWeather(datos, resNameCity)
+            handleCardsWeather(data, resNameCity)
           })
           .catch(() => {
-            handleCardsWeather(datos, "")
+            handleCardsWeather(data, "" )
+
           })
       })
       .catch(error => {
