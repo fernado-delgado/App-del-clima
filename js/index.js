@@ -161,7 +161,7 @@ const handleCardsWeather = (datos, city) => {
 			templateData.templateCurrent = `
       			<div class="data" id="current-weather">
       				<i class="wi ${icon}"></i>
-      				<p class="temp">${current.temp}</p>
+      				<p class="temp">${parseInt(current.temp)}°c</p>
       				<p class="city">${city != "" ? `${city}` : ``}</p>
       			</div>
       			
