@@ -327,6 +327,7 @@ const handleIcon = (timeStamp, id) => {
 	}
 	return `wi wi-owm-${dorn}${id}`
 	
+	
 }
 /*
  
