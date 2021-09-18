@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="css/normalize.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/weather-icons.min.css">
+	<link rel="stylesheet" href="css/weather-icons-wind.min.css">
+	<link rel="stylesheet" href="css/index.css" media="all">
+	<link rel="stylesheet" href="css/responsive.css">
+	<title>Clima</title>
+</head>
+
+<body>
+	<div class="wrap">
+		<header>
+			<a href="index.html">Clima</a>
+			<form class="form">
+				<input type="text">
+				<button type="submit">
+					<i class='bx bx-search-alt'></i>
+				</button>
+			</form>
+		</header>
+		<main>
+			<section class="current-weather fade">
+			</section>
+			<section class="weather">
+				<div class="more-data-weather-current">
+					<div class="row fade">
+					</div>
+					<div class="row fade">
+					</div>
+				</div>
+				<div class="weather-days fade">
+				</div>
+			</section>
+		</main>
+	</div>
+	<script src="js/moment.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/moment-with-locales.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/index.js"></script>
+</body>
+
+</html>

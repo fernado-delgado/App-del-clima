@@ -1,0 +1,88 @@
+@media (max-width: 1000px) {
+	.more-data-weather-current .row .item:nth-child(even)>div {
+		margin-left: 1rem;
+	}
+}
+
+@media (max-width: 900px) {
+	.weather {
+		display: block;
+	}
+
+	.more-data-weather-current {
+		flex-direction: row;
+	}
+
+	.more-data-weather-current .row,
+	.weather-days {
+		align-self: stretch;
+	}
+
+	.more-data-weather-current .row:first-child {
+		margin: 0 .5rem 0 0;
+	}
+
+	.more-data-weather-current .row:last-child {
+		margin: 0 0 0 .5rem;
+	}
+
+	.more-data-weather-current .row {
+		width: calc(100% / 2 - .5rem);
+	}
+
+	.weather-days {
+		margin: 1rem 0;
+	}
+
+	.weather-days .item:last-child {
+		width: calc(100% / 2 - 20px);
+	}
+}
+
+@media (max-width: 660px) {
+
+	.more-data-weather-current .row .item>div i {
+		font-size: 1.1rem;
+	}
+
+	.more-data-weather-current .row .item>div img {
+		width: 1.1rem;
+	}
+
+	.more-data-weather-current .row .item>div {
+		padding-left: 1.7rem;
+	}
+}
+
+@media (max-width: 600px) {
+
+	.more-data-weather-current {
+		flex-direction: column;
+	}
+
+	.more-data-weather-current .row {
+		width: 100%;
+	}
+
+	.more-data-weather-current .row:last-child {
+		margin: 1rem 0 0 0;
+	}
+
+	.more-data-weather-current .row .item:nth-child(even)>div {
+		margin-left: auto;
+	}
+}
+
+@media (max-width: 550px) {
+
+	.weather-days .item,
+	.weather-days .item:last-child {
+		width: 100%;
+	}
+}
+
+@media (max-width: 450px) {
+	header form {
+		width: 70%;
+	}
+}
