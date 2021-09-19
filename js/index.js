@@ -9,158 +9,161 @@ moment.updateLocale('es', {
 */
 moment.locale("es");
 const apiKey = "5ea80a3a5da74b767f1e1bd67efdadb8",
-  apikeyGeoDataSource = "KJWZNNFWHFTRDADK3CT0AVQ5TZWC7IZ8",
-  btnForm = document.querySelector("form button"),
-  htmlBtnForm = {
-    normal: "<i class='bx bx-search-alt'></i>",
-    loader: "<i class='bx bx-loader-alt bx-spin bx-flip-horizontal' ></i>",
-  };
+	apikeyGeoDataSource = "KJWZNNFWHFTRDADK3CT0AVQ5TZWC7IZ8",
+	btnForm = document.querySelector("form button"),
+	htmlBtnForm = {
+		normal: "<i class='bx bx-search-alt'></i>",
+		loader: "<i class='bx bx-loader-alt bx-spin bx-flip-horizontal' ></i>",
+	};
 
 const getNameCity = (lat, lon) => {
-  return new Promise((resolve, reject) => {
-    fetch(
-      `https://geodatasource-geodatasource-location-search-web-service-v1.p.rapidapi.com/city?lat=${lat}&key=${apikeyGeoDataSource}&lng=${lon}`,
-      {
-        method: "GET",
-        headers: {
-          "x-rapidapi-host":
-            "geodatasource-geodatasource-location-search-web-service-v1.p.rapidapi.com",
-          "x-rapidapi-key":
-            "4527db0930msh15fa8c8225abb6bp1ce087jsn33e4fe29efb4",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (document.getElementById("city-current")) {
-          document.getElementById(
-            "city-current"
-          ).textContent = `${data.city},${data.country}`;
-        }
-        resolve(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  });
+	return new Promise((resolve, reject) => {
+		fetch(
+				`https://geodatasource-geodatasource-location-search-web-service-v1.p.rapidapi.com/city?lat=${lat}&key=${apikeyGeoDataSource}&lng=${lon}`,
+				{
+					method: "GET",
+					headers: {
+						"x-rapidapi-host": "geodatasource-geodatasource-location-search-web-service-v1.p.rapidapi.com",
+						"x-rapidapi-key": "4527db0930msh15fa8c8225abb6bp1ce087jsn33e4fe29efb4",
+					},
+				}
+			)
+			.then((res) => res.json())
+			.then((data) => {
+				if (document.getElementById("city-current")) {
+					document.getElementById(
+						"city-current"
+					).textContent = `${data.city},${data.country}`;
+				}
+				resolve(data);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	});
 };
 
 //FUNCION PARA LA GEOLOCALIZACIÓN
 const getGeolocation = () => {
-  //OPCIONES
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0,
-  };
+	//OPCIONES
+	const options = {
+		enableHighAccuracy: true,
+		timeout: 5000,
+		maximumAge: 0,
+	};
 
-  //USUARIO A ACEPTÓ LA GEOLOCALIZACIÓN
-  function success(location) {
-    btnForm.innerHTML = htmlBtnForm.loader;
+	//USUARIO A ACEPTÓ LA GEOLOCALIZACIÓN
+	function success(location) {
+		btnForm.innerHTML = htmlBtnForm.loader;
 
-    let lat = location.coords.latitude,
-      lon = location.coords.longitude,
-      city = "";
-    getNameCity(lat, lon).then((res) => {
-      city = `${res.city},${res.country}`;
-    });
-    fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=metric&lang=es&appid=${apiKey}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        //FUNCIÓN PARA INSERTAR LAS CARDS CON LOS DATOS
-        handleCardsWeather(data, city);
-      })
-      .catch((error) => {
-        btnForm.innerHTML = htmlBtnForm.normal;
-      });
-  }
+		let lat = location.coords.latitude,
+			lon = location.coords.longitude,
+			city = "";
+		getNameCity(lat, lon).then((res) => {
+			city = `${res.city},${res.country}`;
+		});
+		fetch(
+				`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=metric&lang=es&appid=${apiKey}`
+			)
+			.then((res) => res.json())
+			.then((data) => {
+				//FUNCIÓN PARA INSERTAR LAS CARDS CON LOS DATOS
+				handleCardsWeather(data, city);
+			})
+			.catch((error) => {
+				btnForm.innerHTML = htmlBtnForm.normal;
+			});
+	}
 
-  //USUARIO NO ACEPTO LA GEOLOCALIZACIÓN
-  function error(err) {
-    console.log(err);
-  }
+	//USUARIO NO ACEPTO LA GEOLOCALIZACIÓN
+	function error(err) {
+		console.log(err);
+	}
 
-  navigator.geolocation.getCurrentPosition(success, error, options);
+	navigator.geolocation.getCurrentPosition(success, error, options);
 };
 
 //LLAMADO DE LA FUNCIÓN PARA LOCALIZAR AL USUARIO AUTOMATICAMENTE SI LO AUTORIZA
 window.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector(".form");
-  getGeolocation();
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    let city = form.querySelector('input[type="text"]').value,
-      reg =
-        /^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$/g;
-    if (reg.test(city)) {
-      fetchWeather(city);
-    } else {
-      message("Por favor ingrese solo letras de la a a la z", "warning");
-    }
-  });
+	const form = document.querySelector(".form");
+	getGeolocation();
+	form.addEventListener("submit", (e) => {
+		e.preventDefault();
+		let city = form.querySelector('input[type="text"]').value,
+			reg =
+			/^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$/g;
+		if (city.length == 1) {
+			message("Bueno, supongo que no hay paises con una sola letra", "warning");
+		}
+		if (city.length == 0) {
+			message("Por favor, no deje el campo vacío", "warning");
+		}
+
+		if (reg.test(city)) {
+			fetchWeather(city);
+		} else {
+			message("Por favor, ingrese solo letras de la a a la z", "warning");
+		}
+	});
 });
 
 const fetchWeather = (cityInput) => {
-  btnForm.innerHTML = htmlBtnForm.loader;
-  let city = "";
-  fetch(
-    `https://api.openweathermap.org/data/2.5/forecast/daily?q=${cityInput}&cnt=1&appid=${apiKey}`
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      if (data.cod == "404") {
-        message("El lugar que ingreso no fue encontrado", "warning");
-        btnForm.innerHTML = htmlBtnForm.normal;
+	btnForm.innerHTML = htmlBtnForm.loader;
+	let city = "";
+	fetch(
+			`https://api.openweathermap.org/data/2.5/forecast/daily?q=${cityInput}&cnt=1&appid=${apiKey}`
+		)
+		.then((res) => res.json())
+		.then((data) => {
+			if (data.cod == "404") {
+				message("El lugar que ingreso no fue encontrado", "warning");
+				btnForm.innerHTML = htmlBtnForm.normal;
 
-        return false;
-      }
-      //RETORNO DE LOS DATOS
-      let lat = data.city.coord.lat,
-        lon = data.city.coord.lon;
+				return false;
+			}
+			//RETORNO DE LOS DATOS
+			let lat = data.city.coord.lat,
+				lon = data.city.coord.lon;
 
-      getNameCity(lat, lon).then((res) => {
-        city = `${res.city},${res.country}`;
-      });
+			getNameCity(lat, lon).then((res) => {
+				city = `${res.city},${res.country}`;
+			});
 
-      fetch(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=metric&lang=es&appid=${apiKey}`
-      )
-        .then((res) => res.json())
-        .then((datos) => {
-          //FUNCIÓN PARA INSERTAR LAS CARDS CON LOS DATOS
-          handleCardsWeather(datos, city);
-        })
-        .catch((error) => {
-          btnForm.innerHTML = htmlBtnForm.normal;
-        });
-    })
-    .catch((error) => {
-      console.log(error);
-      //leer documentacion para esta parte
-      if (error.cod == "404") {
-        message("El lugar que ingreso no fue encontrado", "warning");
-      }
-      btnForm.innerHTML = htmlBtnForm.normal;
-    });
+			fetch(
+					`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=metric&lang=es&appid=${apiKey}`
+				)
+				.then((res) => res.json())
+				.then((datos) => {
+					//FUNCIÓN PARA INSERTAR LAS CARDS CON LOS DATOS
+					handleCardsWeather(datos, city);
+				})
+				.catch((error) => {
+					btnForm.innerHTML = htmlBtnForm.normal;
+				});
+		})
+		.catch((error) => {
+			//leer documentacion para esta parte
+			if (error.cod == "404") {
+				message("El lugar que ingreso no fue encontrado", "warning");
+			}
+			btnForm.innerHTML = htmlBtnForm.normal;
+		});
 };
 
 const handleCardsWeather = (datos, city) => {
-  let { daily } = datos,
-    current = datos.current,
-    templateData = {
-      templateCurrent: "",
-      templateCurrent2: "",
-      templateCurrent3: "",
-      templateDays: "",
-    };
-  daily.forEach((day, i) => {
-    if (i == 0) {
-      let icon = handleIcon(current.dt * 1000, current.weather[0].id);
+	let { daily } = datos,
+	current = datos.current,
+		templateData = {
+			templateCurrent: "",
+			templateCurrent2: "",
+			templateCurrent3: "",
+			templateDays: "",
+		};
+	daily.forEach((day, i) => {
+		if (i == 0) {
+			let icon = handleIcon(current.dt * 1000, current.weather[0].id);
 
-      templateData.templateCurrent = `
+			templateData.templateCurrent = `
       			<div class="data">
       				<i class="wi ${icon}"></i>
       				<p class="temp">${parseInt(current.temp)}°c</p>
@@ -172,7 +175,7 @@ const handleCardsWeather = (datos, city) => {
       				<p>${current.weather[0].description}</p>
       			</div>
     `;
-      templateData.templateCurrent2 += `
+			templateData.templateCurrent2 += `
     		 <div class="item">
 					<div>
 						<i class="wi wi-humidity"></i>
@@ -204,7 +207,7 @@ const handleCardsWeather = (datos, city) => {
 
 
     `;
-      templateData.templateCurrent3 += `
+			templateData.templateCurrent3 += `
     				<div class="item">
 						<div>
 							<i class="wi wi-cloud"></i>
@@ -234,10 +237,10 @@ const handleCardsWeather = (datos, city) => {
 						</div>
 					</div>
     `;
-    } else {
-      let icon = handleIcon(day.dt * 1000, day.weather[0].id);
+		} else {
+			let icon = handleIcon(day.dt * 1000, day.weather[0].id);
 
-      templateData.templateDays += `
+			templateData.templateDays += `
       	<div class="item">
 					<button class="btn-modal">
 						<i class="wi ${icon}"></i>
@@ -263,70 +266,70 @@ const handleCardsWeather = (datos, city) => {
 					</div>
 				</div>
       `;
-    }
-  });
-  //return new Promise((resolve, reject)=>{
-  //  resolve(templateCards)
-  //})
-  btnForm.innerHTML = htmlBtnForm.normal;
-  document.querySelector(".current-weather > div").innerHTML =
-    templateData.templateCurrent;
-  document.querySelectorAll(".more-data-weather-current .row")[0].innerHTML =
-    templateData.templateCurrent2;
-  document.querySelectorAll(".more-data-weather-current .row")[1].innerHTML =
-    templateData.templateCurrent3;
-  document.querySelector(".weather-days").innerHTML = templateData.templateDays;
+		}
+	});
+	//return new Promise((resolve, reject)=>{
+	//  resolve(templateCards)
+	//})
+	btnForm.innerHTML = htmlBtnForm.normal;
+	document.querySelector(".current-weather > div").innerHTML =
+		templateData.templateCurrent;
+	document.querySelectorAll(".more-data-weather-current .row")[0].innerHTML =
+		templateData.templateCurrent2;
+	document.querySelectorAll(".more-data-weather-current .row")[1].innerHTML =
+		templateData.templateCurrent3;
+	document.querySelector(".weather-days").innerHTML = templateData.templateDays;
 
-  handleAnimationFade();
+	handleAnimationFade();
 
-  toggleModal();
+	toggleModal();
 };
 
 const toggleModal = () => {
-  let btnModal = document.querySelectorAll(".btn-modal"),
-    modals = document.querySelectorAll(".modal");
+	let btnModal = document.querySelectorAll(".btn-modal"),
+		modals = document.querySelectorAll(".modal");
 
-  btnModal.forEach((btn, i) => {
-    btn.addEventListener("click", (e) => {
-      let iconArrow = btn.querySelector(".bx-down-arrow");
-      modals[i].classList.toggle("active");
-      iconArrow.classList.toggle("bx-rotate-180");
+	btnModal.forEach((btn, i) => {
+		btn.addEventListener("click", (e) => {
+			let iconArrow = btn.querySelector(".bx-down-arrow");
+			modals[i].classList.toggle("active");
+			iconArrow.classList.toggle("bx-rotate-180");
 
-      modals.forEach((modal, f) => {
-        if (modal != modals[i] && modal.classList.contains("active")) {
-          modal.parentNode
-            .querySelector("button .bx-down-arrow")
-            .classList.remove("bx-rotate-180");
-          modal.classList.remove("active");
-        }
-      });
-    });
-  });
+			modals.forEach((modal, f) => {
+				if (modal != modals[i] && modal.classList.contains("active")) {
+					modal.parentNode
+						.querySelector("button .bx-down-arrow")
+						.classList.remove("bx-rotate-180");
+					modal.classList.remove("active");
+				}
+			});
+		});
+	});
 };
 toggleModal();
 
 const handleAnimationFade = () => {
-  const fades = document.querySelectorAll(".fade");
+	const fades = document.querySelectorAll(".fade");
 
-  fades.forEach((fade, i) => {
-    fade.style.animation = `fadeUp 1.8s forwards`;
-    fade.style.animationDelay = `${300 * i}ms`;
-  });
+	fades.forEach((fade, i) => {
+		fade.style.animation = `fadeUp 1.8s forwards`;
+		fade.style.animationDelay = `${300 * i}ms`;
+	});
 };
 const handleIcon = (timeStamp, id) => {
-  let hour = new Date(timeStamp).getHours();
-  if (hour > 6 && hour < 20) {
-    //Day time
-    dorn = "day-";
-  } else {
-    //Night time
-    dorn = "night-";
-  }
-  return `wi wi-owm-${dorn}${id}`;
+	let hour = new Date(timeStamp).getHours();
+	if (hour > 6 && hour < 20) {
+		//Day time
+		dorn = "day-";
+	} else {
+		//Night time
+		dorn = "night-";
+	}
+	return `wi wi-owm-${dorn}${id}`;
 };
 
 const message = (text, type) => {
-  const template = `
+	const template = `
 	<div class="message ${type}" id="message"style="animation: fadeRight 1.5s forwards">
 		<p>${text}</p>
 		<span class="btn">
@@ -334,27 +337,29 @@ const message = (text, type) => {
 		</span>
 	</div>
 	`;
-  //verificar si un existe el mensaje
-  if (!document.getElementById("message")) {
-    document.querySelector("main").insertAdjacentHTML("beforeend", template);
-  }
-  let $message = document.getElementById("message");
-  oneSecond = 1000;
-  $message.querySelector(".btn").addEventListener("click", () => {
-    $message.style.animation = "fadeToRight 1.5s forwards";
-    setTimeout(() => {
-      $message.remove();
-    }, oneSecond + 500);
-  });
+	//verificar si un existe el mensaje
+	if (!document.getElementById("message")) {
+		document.querySelector("main").insertAdjacentHTML("beforeend", template);
+	}
 
-  setTimeout(() => {
-    //verificarsi existe el mensaje
-    if (document.getElementById("message")) {
-      $message.style.animation = "fadeToRight 1.5s forwards";
-      setTimeout(() => {
-        $message.remove();
-      }, oneSecond + 500);
-    }
-  }, oneSecond * 7);
+	let $message = document.getElementById("message");
+	oneSecond = 1000;
+
+	$message.querySelector(".btn").addEventListener("click", () => {
+		$message.style.animation = "fadeToRight 1.5s forwards";
+		setTimeout(() => {
+			$message.remove();
+		}, oneSecond + 500);
+	});
+
+	setTimeout(() => {
+		//verificarsi existe el mensaje
+		if (document.getElementById("message")) {
+			$message.style.animation = "fadeToRight 1.5s forwards";
+
+			setTimeout(() => {
+				$message.remove();
+			}, oneSecond + 500);
+		}
+	}, oneSecond * 7);
 };
-

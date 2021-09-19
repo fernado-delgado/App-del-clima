@@ -89,7 +89,7 @@ main {
 .message {
   position: absolute;
   top: 3rem;
-  right: 5%;
+  right: 0;
   border-radius: 0.2rem;
   display: flex;
   z-index: 10;
