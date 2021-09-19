@@ -30,7 +30,7 @@ const getNameCity = (lat, lon) => {
 			.then(res => res.json())
 			.then(data => {
 				if (document.getElementById("city-current")) {
-						document.getElementById("city-current").textContent=`${data.city},${data.country}`;
+					document.getElementById("city-current").textContent = `${data.city},${data.country}`;
 				}
 				resolve(data)
 			})
@@ -89,9 +89,13 @@ window.addEventListener("DOMContentLoaded", () => {
 	getGeolocation()
 	form.addEventListener("submit", (e) => {
 		e.preventDefault()
-		dataForm = new FormData;
-		dataForm.append("city", form.querySelector('input[type="text"]').value)
-		fetchWeather(dataForm.get("city"))
+		let city = form.querySelector('input[type="text"]').value,
+			reg = /^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$/g;
+		if(reg.test(city)) {
+			fetchWeather(city)
+		}else{
+			message("Por favor ingrese solo letras de la a a la z", "warning")
+		}
 	})
 });
 
@@ -104,11 +108,11 @@ const fetchWeather = (cityInput) => {
 			//RETORNO DE LOS DATOS
 			let lat = data.city.coord.lat,
 				lon = data.city.coord.lon;
-				
+
 			getNameCity(lat, lon).then(res => {
 				city = `${res.city},${res.country}`;
 			})
-			
+
 			fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=metric&lang=es&appid=${apiKey}`)
 				.then(res => res.json())
 				.then(datos => {
@@ -251,7 +255,7 @@ const handleCardsWeather = (datos, city) => {
 	//  resolve(templateCards)
 	//})
 	btnForm.innerHTML = htmlBtnForm.normal;
-	document.querySelector(".current-weather div").innerHTML = templateData.templateCurrent;
+	document.querySelector(".current-weather > div").innerHTML = templateData.templateCurrent;
 	document.querySelectorAll(".more-data-weather-current .row")[0].innerHTML = templateData.templateCurrent2;
 	document.querySelectorAll(".more-data-weather-current .row")[1].innerHTML = templateData.templateCurrent3;
 	document.querySelector(".weather-days").innerHTML = templateData.templateDays;
@@ -310,6 +314,28 @@ const handleIcon = (timeStamp, id) => {
 	return `wi wi-owm-${dorn}${id}`
 
 
+}
+
+const message = (text, type)=>{
+	const template = `
+				<div class="message ${type}" id="message"style="animation: fadeRight 1.5s forwards">
+				<p>${text}</p>
+				<span class="btn">
+					<i class='bx bx-x'></i>
+				</span>
+			</div>
+	`;
+	if(!document.getElementById("message")){
+			document.querySelector("main").insertAdjacentHTML("beforeend", template)
+	}
+	let $message = document.getElementById("message")
+	oneSecond = 1000;
+	
+	setTimeout(()=>{
+		$message.style.animation="fadeToRight 1.5s forwards"
+		setTimeout(()=>{
+		},oneSecond+500)
+	},oneSecond*3)
 }
 /*
  

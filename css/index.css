@@ -83,6 +83,51 @@ main {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	position: relative;
+}
+
+.message {
+	position: absolute;
+	top: 3rem;
+	border-radius: .2rem;
+	display: flex;
+	z-index: 10;
+	padding-left: .5rem;
+	overflow: hidden;
+	opacity: 0;
+}
+
+.message .btn {
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: stretch;
+	padding: 0 .3rem;
+}
+
+.message .btn i {
+	font-size: 18px;
+}
+
+.message.warning {
+	background-color: #FDDA9A;
+	border-left: 5px solid #F5A50C;
+
+}
+
+.message.warning .btn {
+	background-color: #F5A50C;
+}
+
+.message.error {
+	background-color: #FEE1E0;
+	border-left: 5px solid #FE96A0;
+
+}
+
+.message.error .btn {
+	background-color: #FE96A0;
 }
 
 .weather {
@@ -95,20 +140,34 @@ main {
 
 .current-weather {
 	width: 100%;
-	background-image: url(../img/Scene-7.jpg);
-	background-size: cover;
-	background-position: center;
-	background-repeat: none;
 	color: #fff;
 	border-radius: .4rem;
 	padding: 5rem 1rem 1rem 1rem;
 	position: relative;
+	overflow: hidden;
 }
 
 .current-weather>div {
 	display: flex;
 	justify-content: space-between;
+}
 
+.current-weather img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	width: 100%;
+	height: auto;
+
+}
+
+@supports(object-fit: cover) {
+	.current-weather img {
+		height: 100%;
+		object-fit: cover;
+		object-position: center center;
+	}
 }
 
 .current-weather::before {
@@ -380,5 +439,22 @@ main {
 	to {
 		opacity: 1;
 		transform: translateY(0)
+	}
+}
+@keyframes fadeRight{
+	from {
+		transform: translateX(3rem)
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0)
+	}
+}
+@keyframes fadeToRight{
+	from {
+		transform: translateX(0)
+	}
+	to {
+		transform: translateX(3rem)
 	}
 }
