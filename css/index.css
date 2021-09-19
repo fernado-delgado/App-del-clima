@@ -12,13 +12,16 @@ button,
 ::after {
 	box-sizing: border-box;
 }
-.fade{
+
+.fade {
 	opacity: 0;
 }
-.fade.fadeEnd{
+
+.fade.fadeEnd {
 	opacity: 1;
 	transform: translateY(0);
 }
+
 body {
 	font-family: 'Poppins', sans-serif;
 	background-color: #F8F7FD;
@@ -99,11 +102,16 @@ main {
 	color: #fff;
 	border-radius: .4rem;
 	padding: 5rem 1rem 1rem 1rem;
-	display: flex;
-	justify-content: space-between;
 	position: relative;
 }
-.current-weather::before{
+
+.current-weather>div {
+	display: flex;
+	justify-content: space-between;
+
+}
+
+.current-weather::before {
 	content: "Imagen ilustrativa";
 	position: absolute;
 	top: 1rem;
@@ -111,6 +119,7 @@ main {
 	font-size: .4rem;
 	color: var(--color-border);
 }
+
 .current-weather .data {
 	display: inline-block;
 }
@@ -350,6 +359,7 @@ main {
 		transform: translateY(3rem);
 	}
 }
+
 @keyframes fadeDown {
 	from {
 		transform: translateY(3rem)

@@ -27,25 +27,17 @@ const getNameCity = (lat, lon) => {
 					"x-rapidapi-key": "4527db0930msh15fa8c8225abb6bp1ce087jsn33e4fe29efb4"
 				}
 			})
-			.then(res => {
-				resolve(res.json())
+			.then(res => res.json())
+			.then(data => {
+				if (document.getElementById("city-current")) {
+						document.getElementById("city-current").textContent=`${data.city},${data.country}`;
+				}
+				resolve(data)
 			})
 			.catch(err => {
 				console.error(err);
 			});
 	})
-
-	/*
-	    fetch(`https://api.geodatasource.com/v2/city?key=KJWZNNFWHFTRDADK3CT0AVQ5TZWC7IZ8&lat=21.1743&lng=-86.8466`,{
-	      method:'GET'
-	    })
-	      .then(res => res.json())
-	      .then(data => {
-	        console.log("pasa")
-	        resolve(data)
-	      })
-	      .catch(error => reject(""))
-	      */
 
 }
 
@@ -68,10 +60,6 @@ const getGeolocation = () => {
 			city = "";
 		getNameCity(lat, lon).then(res => {
 			city = `${res.city},${res.country}`;
-			if (document.getElementById("current-weather")) {
-				document.querySelector("#current-weather > .city").innerHTML = city;
-				localStorage.setItem("oldCity", city)
-			}
 		})
 		fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=metric&lang=es&appid=${apiKey}`)
 			.then(res => res.json())
@@ -116,23 +104,16 @@ const fetchWeather = (cityInput) => {
 			//RETORNO DE LOS DATOS
 			let lat = data.city.coord.lat,
 				lon = data.city.coord.lon;
-
-			//
+				
 			getNameCity(lat, lon).then(res => {
 				city = `${res.city},${res.country}`;
-				if (document.getElementById("current-weather")) {
-					document.querySelector("#current-weather > .city").innerHTML = city;
-					localStorage.setItem("oldCity", city)
-				}
-
 			})
+			
 			fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&units=metric&lang=es&appid=${apiKey}`)
 				.then(res => res.json())
 				.then(datos => {
 					//FUNCIÓN PARA INSERTAR LAS CARDS CON LOS DATOS
 					handleCardsWeather(datos, city)
-					//.then(resp => console.log(resp))
-
 				})
 				.catch(error => {
 					btnForm.innerHTML = htmlBtnForm.normal;
@@ -159,10 +140,10 @@ const handleCardsWeather = (datos, city) => {
 			let icon = handleIcon(current.dt * 1000, current.weather[0].id);
 
 			templateData.templateCurrent = `
-      			<div class="data" id="current-weather">
+      			<div class="data">
       				<i class="wi ${icon}"></i>
       				<p class="temp">${parseInt(current.temp)}°c</p>
-      				<p class="city">${city != "" ? `${city}` : ``}</p>
+      				<p class="city" id="city-current">${city != "" ? `${city}` : ``}</p>
       			</div>
       			
       			<div class = "time" >
@@ -270,10 +251,11 @@ const handleCardsWeather = (datos, city) => {
 	//  resolve(templateCards)
 	//})
 	btnForm.innerHTML = htmlBtnForm.normal;
-	document.querySelector(".current-weather").innerHTML = templateData.templateCurrent;
+	document.querySelector(".current-weather div").innerHTML = templateData.templateCurrent;
 	document.querySelectorAll(".more-data-weather-current .row")[0].innerHTML = templateData.templateCurrent2;
 	document.querySelectorAll(".more-data-weather-current .row")[1].innerHTML = templateData.templateCurrent3;
 	document.querySelector(".weather-days").innerHTML = templateData.templateDays;
+
 	handleAnimationFade()
 
 	toggleModal()
@@ -326,8 +308,8 @@ const handleIcon = (timeStamp, id) => {
 		dorn = "night-";
 	}
 	return `wi wi-owm-${dorn}${id}`
-	
-	
+
+
 }
 /*
  
